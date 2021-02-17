@@ -1,0 +1,17 @@
+server:
+  port: 9003
+
+spring:
+  application:
+    name: cloudalibaba-provider-payment-service
+  cloud:
+    nacos:
+      discovery:
+        # 通过Nginx注册到Nacos集群
+        server-addr: 127.0.0.1:1111
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
