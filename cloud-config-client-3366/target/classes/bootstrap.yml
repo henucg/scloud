@@ -1,0 +1,45 @@
+# 此处使用bootstrap.yml，是全局配置文件，优先级高于application.yml（用户配置文件）
+# 目的是在启动的时候就能加载全局配置文件
+
+server:
+  port: 3366
+
+spring:
+  application:
+    name: cloud-config-center-client
+  cloud:
+    #config 客户端配置
+    config:
+      label: main #分支名称
+      name: config  #配置文件名称
+      profile: dev  #读取后缀名称 上述3个综合:main分支上config-dev.yml的配置文件被读取http://localhost:3344/main/config-dev.yml
+      uri: http://localhost:3344  #配置中心地址
+
+eureka:
+  instance:
+    hostname: cloud-config-center-client
+  client:
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
+    register-with-eureka: true
+    fetch-registry: true
+
+##########################
+# 手动刷新配置（3344是实时从githup上拿数据的，因此可以做到实时获取，而3366作为3344的客户端，并不是实时从3344获取数据，
+#  导致githup上的数据修改之后，3355并不能实时更新）
+# 每次修改githup上的配置后，需要手动刷新一下,才能不用重启访问3366才可以查看最新配置
+# curl -X POST "http://localhost:3355/actuator/refresh"
+##########################
+# 暴露监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+# rabbitmq相关配置 15672是web管理界面的端口; 5672 是MQ访问的端口
+rabbitmq:
+  host: localhost
+  port: 5672
+  username: guest
+  password: guest

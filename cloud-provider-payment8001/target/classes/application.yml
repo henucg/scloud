@@ -1,0 +1,42 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: cloud-payment-service
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.gjt.mm.mysql.Driver
+    url: jdbc:mysql://localhost:3306/scloud?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 12345678
+    druid:
+      validation-query: SELECT 1
+      validation-query-timeout: 1800
+  #P94 需要的配置，将链路请求信息发送到zipkin:9411
+  zipkin:
+    base-url: http://localhost:9411
+  sleuth:
+    sampler:
+      probability: 1  #采样率值介于0-1之间,1标识全部采集
+
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.henucg.entity
+
+# 输出执行SQL
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    # eureka管理页面鼠标悬停，配置注册eureka的别名（原名：localhost:cloud-payment-service:8001）
+    instance-id: cloud-payment-service-8001
+    # eureka管理页面鼠标悬停，服务显示IP地址
+    prefer-ip-address: true
