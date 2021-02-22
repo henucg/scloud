@@ -88,4 +88,5 @@
 
 #### 遗留问题：
   ###### Seata版本升级问题
-  ###### Nacos配置的Sentinel规则需要Service重启才能同步到Sentinel吗
+  ###### Nacos配置的Sentinel规则需要Service重启才能同步到Sentinel
+  ###### 全链路监控
